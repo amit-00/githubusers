@@ -1,6 +1,8 @@
 import React from 'react';
 import UserItem from './UserItem'
 import Spinner from '../utility/Spinner'
+import PropTypes from 'prop-types'
+
 
 const Users = ({users, loading}) => {
     if(loading){
@@ -21,6 +23,11 @@ const userStyle = {
     display:'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridGap: '1rem'
+}
+
+const propTypes = {
+    users: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
 }
 
 export default Users;

@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import spinner from './spinner.gif';
 
+
 function Spinner() {
     return (
         <Fragment>
@@ -8,5 +9,7 @@ function Spinner() {
         </Fragment>
     )
 }
+
+
 
 export default Spinner;
