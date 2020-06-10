@@ -6,15 +6,18 @@ import Users from './components/users/Users';
 import Search from './components/users/Search';
 import Alert from './components/utility/Alert';
 import About from './components/pages/About';
+import User from './components/users/User';
 import axios from 'axios';
 
 
 class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false,
     showClear: false,
     alert: null,
+    home: true,
   }
 
   //Fetch's users from github api
@@ -28,11 +31,11 @@ class App extends Component {
 
   //Gets data of single user
   getUser = async login => {
-    this.setState({ loading: true });
+    this.setState({ loading: true});
 
-    const res = await axios.get(`https://api.github.com/users/${login}`);
-    
-    this.setState({ loading: false });
+    const res = await axios.get(`https://api.github.com/users/${login}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+
+    this.setState({ user: res.data, loading: false });
   }
 
   //Clears the Users component
@@ -43,16 +46,21 @@ class App extends Component {
 
   //Sets alert when search bar is empty
   setAlert = (text) => {
-    this.setState({ alert: text})
+    this.setState({ alert: text});
+  }
+
+  changeActive = () => {
+    const change = !this.state.home
+    this.setState({ home: change });
   }
 
   render() {
-    const { users, loading, showClear, alert } = this.state;
+    const { users, user, loading, showClear, alert, home, about } = this.state;
 
     return (
       <Router>
         <div className="App">
-          <Navbar />
+          <Navbar home={home} about={about} changeActive={this.changeActive} />
           <div className="container">
             <Switch>
               <Route exact path='/' render={props => (
@@ -63,6 +71,11 @@ class App extends Component {
                 </Fragment>
               )} />
               <Route exact path='/about' component={About} />
+              <Route exact path='/user/:login' render={props => (
+                <Fragment>
+                  <User {...props} user={user} getUser={this.getUser} loading={loading}/>
+                </Fragment>
+              )}/>
             </Switch>
             
           </div>

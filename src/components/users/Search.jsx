@@ -31,12 +31,12 @@ export class Search extends Component {
         const {clearUsers, showClear} = this.props;
 
         return (
-            <div style={{margin: '1rem 0'}} className="container row">
-                <form onSubmit={this.onSubmit} className="col-sm-11">
-                    <input className="col-sm-11" type="text" name="text" value={this.state.text} onChange={this.onChange} placeholder="Search Github User..."/>
-                    <input className="btn btn-primary col-sm-1" type="submit" value="Search"/>
+            <div style={{margin: '1rem 0'}} className="container">
+                <form onSubmit={this.onSubmit} >
+                    <input className="col-lg" type="text" name="text" value={this.state.text} onChange={this.onChange} placeholder="Search Github User..."/>
+                    <input className="btn btn-primary col-lg text-center" type="submit" value="Search"/>
                 </form>
-                {showClear && <button onClick={clearUsers} className="btn btn-dark col-sm-1">Clear</button>}
+                {showClear && <button onClick={clearUsers} className="btn btn-dark text-center col-lg">Clear</button>}
             </div>
             
         )

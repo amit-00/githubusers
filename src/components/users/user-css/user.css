@@ -1,0 +1,13 @@
+.space{
+    padding: 1rem;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.vert-margin{
+    margin: 1rem 0;
+}
