@@ -1,47 +1,43 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useContext } from 'react';
+import GithubContext from '../../context/github/githubContext';
+import AlertContext from '../../context/alert/alertContext';
 
 
-export class Search extends Component {
-    state = {
-        text: ''
-    }
+const Search = () => {
+    const githubContext = useContext(GithubContext);
+    const alertContext = useContext(AlertContext);
 
-    static propTypes = {
-        searchUser: PropTypes.func.isRequired,
-        clearUsers: PropTypes.func.isRequired,
-        showClear: PropTypes.bool.isRequired,
-        setAlert: PropTypes.func.isRequired,
-    }
+    const { setAlert, removeAlert } = alertContext;
+    const { users, searchUsers, clearUsers } = githubContext;
 
-    onChange = e => this.setState({[e.target.name]: e.target.value});
+    const [text, setText] = useState('');
 
-    onSubmit = e => {
+    const onChange = e => setText(e.target.value);
+
+    const onSubmit = e => {
         e.preventDefault();
-        if(this.state.text === ''){
-            this.props.setAlert('Please Enter Something');
+        if(text === ''){
+            setAlert('Please Enter Something');
         }
         else{
-            this.props.searchUser(this.state.text);
-            this.setState({text: ''});
+            removeAlert();
+            searchUsers(text);
+            setText('');
         } 
     };
 
-    render() {
-        const {clearUsers, showClear} = this.props;
-
-        return (
-            <div style={{margin: '1rem 0'}} className="container">
-                <form onSubmit={this.onSubmit} >
-                    <input className="col-lg" type="text" name="text" value={this.state.text} onChange={this.onChange} placeholder="Search Github User..."/>
-                    <input className="btn btn-primary col-lg text-center" type="submit" value="Search"/>
-                </form>
-                {showClear && <button onClick={clearUsers} className="btn btn-dark text-center col-lg">Clear</button>}
-            </div>
-            
-        )
-    }
+    return (
+        <div className='vert-margin'>
+            <form onSubmit={onSubmit} >
+                <input className="col-lg" type="text" name="text" value={text} onChange={onChange} placeholder="Search Github User..."/>
+                <input className="btn btn-primary col-lg text-center" type="submit" value="Search"/>
+            </form>
+            {users.length > 0 && <button onClick={clearUsers} className="btn btn-dark text-center col-lg">Clear</button>}
+        </div>
+        
+    )
 }
+
 
 
 export default Search
